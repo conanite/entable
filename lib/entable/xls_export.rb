@@ -21,10 +21,6 @@ module Entable::XlsExport
     raise "unable to convert '#{str}' to #{enc}"
   end
 
-  def write_items_as_csv items
-    render :text => items.map(&:to_csv).join("\n"), :content_type => "text/csv; charset=ISO-8859-1"
-  end
-
   def array_for_xls item
     item.is_a?(Array) ? item : item.to_csv_array
   end
