@@ -8,7 +8,7 @@ require 'entable/version'
 Gem::Specification.new do |gem|
   gem.name          = "entable"
   gem.version       = Entable::VERSION
-  gem.authors       = ["conanite"]
+  gem.authors       = ["Conan Dalton"]
   gem.email         = ["conan@conandalton.net"]
   gem.description   = %q{Generate HTML tables which popular spreadsheet software packages know how to read }
   gem.summary       = %q{LibreOffice and Microsoft Office are both able to open a HTML file and interpret the contents of the <table> element as a worksheet.
