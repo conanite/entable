@@ -44,7 +44,11 @@ module Entable::XlsExport
   end
 
   def quote_for_xls text
-    (text.is_a?(String) && needs_quoting?(text)) ? "=\"#{text}\"" : text
+    (text.is_a?(String) && needs_quoting?(text)) ? "=\"#{double_quote text}\"" : text
+  end
+
+  def double_quote text
+    text.gsub /"/, '""'
   end
 
   def needs_quoting? text

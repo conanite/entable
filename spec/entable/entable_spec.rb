@@ -120,5 +120,9 @@ describe Entable do
 </table></body></html>}
   end
 
+  it "should escape double-quotes when necessary" do
+    self.class.send :include, Entable::XlsExport
+    quote_for_xls('2, "The Hammonds"').should == '="2, ""The Hammonds"""'
+  end
 
 end
