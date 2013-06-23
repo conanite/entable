@@ -39,9 +39,21 @@ class ContactUpper
   end
 end
 
+class TwiceEverything
+  def call collection
+    collection.inject([]) { |result, item|
+      result << item
+      result << item
+      result
+    }
+  end
+end
+
 Entable.add_transformer :sort_by_last_name do |collection|
   collection.sort_by &:lastname
 end
+
+Entable.add_transformer :double_each_item, TwiceEverything.new
 
 Entable.add_wrapper :uppercase do |item|
   ContactUpper.new item

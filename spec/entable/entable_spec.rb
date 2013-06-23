@@ -62,6 +62,29 @@ describe Entable do
 </table></body></html>}
   end
 
+  it "should generate a simple table, with two of each item" do
+    config = {
+      "preprocess" => {
+        "transform" => "double_each_item"
+      },
+      "columns" => [
+                    { "title" => "First",    "content" => "%{firstname}" },
+                    { "title" => "Last",     "content" => "%{lastname}"  }
+                   ]
+    }
+    Exporter.new(config).to_xls(CONTACTS).should == %{<html><head><meta content='application/vnd.ms-excel;charset=UTF-8' http-equiv='Content-Type'><meta content='UTF-8' http-equiv='Encoding'></head><body><table>
+<tr><td>First</td> <td>Last</td></tr>
+<tr><td>Conan</td> <td>Dalton</td></tr>
+<tr><td>Conan</td> <td>Dalton</td></tr>
+<tr><td>Zed</td> <td>Zenumbra</td></tr>
+<tr><td>Zed</td> <td>Zenumbra</td></tr>
+<tr><td>Abraham</td> <td>Aardvark</td></tr>
+<tr><td>Abraham</td> <td>Aardvark</td></tr>
+<tr><td>James</td> <td>Joyce</td></tr>
+<tr><td>James</td> <td>Joyce</td></tr>
+</table></body></html>}
+  end
+
 
   it "should generate a table with two rows per item, applying #colspan attribute " do
     config = {

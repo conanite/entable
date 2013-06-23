@@ -1,8 +1,8 @@
 require "entable/version"
 
 module Entable
-  def self.add_transformer name, &block
-    Entable::Transformer.add_transformer name, &block
+  def self.add_transformer name, transformer=nil, &block
+    Entable::Transformer.add_transformer name, transformer, &block
   end
 
   def self.add_wrapper name, &block

@@ -1,7 +1,7 @@
 module Entable::Transformer
-  def self.add_transformer name, &block
+  def self.add_transformer name, transformer=nil, &block
     @@transformers ||= { }
-    @@transformers[name.to_sym] = block
+    @@transformers[name.to_sym] = transformer || block
   end
 
   def self.apply_transform collection, transform_name
