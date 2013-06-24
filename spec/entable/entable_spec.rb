@@ -143,6 +143,28 @@ describe Entable do
 </table></body></html>}
   end
 
+  it "should generate a simple table, reversing names, capitalizing some, applying prefix and postfix" do
+    config = {
+      "preprocess" => {
+        "transform" => "alernating_boolean",
+        "wrap" => "reversi"
+      },
+      "columns" => [
+                    { "title" => "First",    "content" => "%{firstname}" },
+                    { "title" => "Last",     "content" => "%{lastname}"  },
+                    { "title" => "Phone",    "content" => "%{phone}"     },
+                    { "title" => "Postcode", "content" => "%{postcode}"  },
+                   ]
+    }
+    Exporter.new(config).to_xls(CONTACTS, "PREFIX", "POSTFIX").should == %{<html><head><meta content='application/vnd.ms-excel;charset=UTF-8' http-equiv='Content-Type'><meta content='UTF-8' http-equiv='Encoding'></head><body><table>
+<tr><td>First</td> <td>Last</td> <td>Phone</td> <td>Postcode</td></tr>
+<tr><td>Nanoc</td> <td>Notlad</td> <td>PREFIX01234567</td> <td>75020POSTFIX</td></tr>
+<tr><td>dez</td> <td>arbmunez</td> <td>PREFIX999999</td> <td>99999POSTFIX</td></tr>
+<tr><td>Maharba</td> <td>Kravdraa</td> <td>PREFIX0000000</td> <td>0POSTFIX</td></tr>
+<tr><td>semaj</td> <td>ecyoj</td> <td>PREFIX3647583</td> <td>75001POSTFIX</td></tr>
+</table></body></html>}
+  end
+
   it "should escape double-quotes when necessary" do
     self.class.send :include, Entable::XlsExport
     quote_for_xls('2, "The Hammonds"').should == '="2, ""The Hammonds"""'

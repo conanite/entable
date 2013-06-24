@@ -5,8 +5,8 @@ module Entable
     Entable::Transformer.add_transformer name, transformer, &block
   end
 
-  def self.add_wrapper name, &block
-    Entable::Wrapper.add_wrapper name, &block
+  def self.add_wrapper name, klass=nil, &block
+    Entable::Wrapper.add_wrapper name, klass, &block
   end
 end
 

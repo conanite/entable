@@ -39,6 +39,32 @@ class ContactUpper
   end
 end
 
+class ContactReverse
+  attr_accessor :contact, :upcasing, :prefix, :postfix
+
+  def initialize contact, upcasing, prefix, postfix
+    @contact, @upcasing, @prefix, @postfix = contact, upcasing, prefix, postfix
+  end
+
+  def firstname
+    f = contact.firstname.downcase.reverse
+    self.upcasing ? f.capitalize : f
+  end
+
+  def lastname
+    f = contact.lastname.downcase.reverse
+    self.upcasing ? f.capitalize : f
+  end
+
+  def phone
+    prefix + contact.phone
+  end
+
+  def postcode
+    contact.postcode + postfix
+  end
+end
+
 class TwiceEverything
   def call collection
     collection.inject([]) { |result, item|
@@ -49,15 +75,29 @@ class TwiceEverything
   end
 end
 
+class AlternatingBoolean
+  def call collection
+    b = true
+    collection.inject([]) { |result, item|
+      result << [item, b]
+      b = !b
+      result
+    }
+  end
+end
+
 Entable.add_transformer :sort_by_last_name do |collection|
   collection.sort_by &:lastname
 end
 
 Entable.add_transformer :double_each_item, TwiceEverything.new
+Entable.add_transformer :alernating_boolean, AlternatingBoolean.new
 
 Entable.add_wrapper :uppercase do |item|
   ContactUpper.new item
 end
+
+Entable.add_wrapper :reversi, ContactReverse
 
 class Exporter
   include Entable::XlsExport
@@ -69,8 +109,8 @@ class Exporter
     self.config = config
   end
 
-  def to_xls items
-    build_interpreter(config).to_xls items
+  def to_xls items, *args
+    build_interpreter(config).to_xls items, *args
   end
 end
 
