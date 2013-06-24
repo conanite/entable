@@ -175,6 +175,16 @@ describe Entable do
     Proc.new { Exporter.new(config).to_xls(CONTACTS) }.should raise_error(StandardError, "Unknown wrapper name :not_configured")
   end
 
+  it "should generate an error for a nonexistent wrapper" do
+    config = {
+      "preprocess" => {
+        "transform" => "not_configured"
+      },
+      "columns" => [{ "title" => "First",    "content" => "%{firstname}" }]
+    }
+    Proc.new { Exporter.new(config).to_xls(CONTACTS) }.should raise_error(StandardError, "Unknown transformer name :not_configured")
+  end
+
   it "should escape double-quotes when necessary" do
     self.class.send :include, Entable::XlsExport
     quote_for_xls('2, "The Hammonds"').should == '="2, ""The Hammonds"""'

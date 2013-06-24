@@ -5,6 +5,8 @@ module Entable::Transformer
   end
 
   def self.apply_transform collection, transform_name
-    @@transformers[transform_name.to_sym].call collection
+    transformer = @@transformers[transform_name.to_sym]
+    raise "Unknown transformer name #{transform_name.inspect}" if transformer.nil?
+    transformer.call collection
   end
 end
