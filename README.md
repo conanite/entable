@@ -78,6 +78,22 @@ Or, similarly,
       collection.order("full_name ASC")
     end
 
+You can pass any object that responds to #call:
+
+    Entable.add_transformer :sort_by_full_name, OrderApplication("full_name ASC")
+
+where
+
+    class OrderApplication
+      def initialize(expr)
+        @expr = expr
+      end
+
+      def call(collection)
+        collection.order(@expr)
+      end
+    end
+
 
 Wrappers are not strictly necessary; you could apply a wrapper inside a transformer.
 Separating the two frees you to apply each independently.
@@ -93,11 +109,16 @@ dates.
 
 To install a wrapper, call Entable#add_wrapper
 
-    Entable.add_wrapper :contact_export do |item, *args|
-      ContactTable.new item, *args
+    Entable.add_wrapper :contact_export do |contact, *args|
+      ContactTable.new contact, *args
     end
 
-In this example, the _item_ is the object to be wrapped, and _*args_ are the arguments passed to #to_xls earlier. This allows you pass any extra parameters to your wrapper that you might need in order to render each item as a row in a spreadsheet.
+In this example, the _contact_ is the object to be wrapped, and _*args_ are the arguments passed to #to_xls earlier. This allows you pass any extra parameters to your wrapper that you might need in order to render each item as a row in a spreadsheet.
+
+You can also supply a Class directly - this example is equivalent to the example above:
+
+    Entable.add_wrapper :contact_export, ContactTable
+
 
 
 
