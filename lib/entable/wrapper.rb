@@ -10,6 +10,8 @@ module Entable::Wrapper
       items.map { |item| wrapper.call(item, *args) }
     elsif wrapper.is_a? Class
       items.map { |item| wrapper.new(*item, *args) }
+    else
+      raise "Unknown wrapper name #{name.inspect}"
     end
   end
 end
