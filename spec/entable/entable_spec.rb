@@ -7,18 +7,19 @@ describe Entable do
   it "should generate a very simple table with one row per item" do
     config = {
       "columns" => [
-                    { "title" => "First",    "content" => "%{firstname}" },
-                    { "title" => "Last",     "content" => "%{lastname}"  },
-                    { "title" => "Phone",    "content" => "%{phone}"     },
-                    { "title" => "Postcode", "content" => "%{postcode}"  },
+                    { "title" => "First",    "content" => "%{firstname}"     },
+                    { "title" => "Last",     "content" => "%{lastname}"      },
+                    { "title" => "Phone",    "content" => "%{phone}"         },
+                    { "title" => "Postcode", "content" => "%{postcode}"      },
+                    { "title" => "Org",      "content" => "%{org.name}"  },
                    ]
     }
     Exporter.new(config).to_xls(CONTACTS).should == %{<html><head><meta content='application/vnd.ms-excel;charset=UTF-8' http-equiv='Content-Type'><meta content='UTF-8' http-equiv='Encoding'></head><body><table>
-<tr><td>First</td> <td>Last</td> <td>Phone</td> <td>Postcode</td></tr>
-<tr><td>Conan</td> <td>Dalton</td> <td>01234567</td> <td>75020</td></tr>
-<tr><td>Zed</td> <td>Zenumbra</td> <td>999999</td> <td>99999</td></tr>
-<tr><td>Abraham</td> <td>Aardvark</td> <td>0000000</td> <td>0</td></tr>
-<tr><td>James</td> <td>Joyce</td> <td>3647583</td> <td>75001</td></tr>
+<tr><td>First</td> <td>Last</td> <td>Phone</td> <td>Postcode</td> <td>Org</td></tr>
+<tr><td>Conan</td> <td>Dalton</td> <td>01234567</td> <td>75020</td> <td>Softify</td></tr>
+<tr><td>Zed</td> <td>Zenumbra</td> <td>999999</td> <td>99999</td> <td>Ericsson</td></tr>
+<tr><td>Abraham</td> <td>Aardvark</td> <td>0000000</td> <td>0</td> <td>Nokia</td></tr>
+<tr><td>James</td> <td>Joyce</td> <td>3647583</td> <td>75001</td> <td>Nortel</td></tr>
 </table></body></html>}
   end
 
@@ -175,7 +176,7 @@ describe Entable do
     Proc.new { Exporter.new(config).to_xls(CONTACTS) }.should raise_error(StandardError, "Unknown wrapper name :not_configured")
   end
 
-  it "should generate an error for a nonexistent wrapper" do
+  it "should generate an error for a nonexistent transform" do
     config = {
       "preprocess" => {
         "transform" => "not_configured"

@@ -18,13 +18,14 @@ RSpec.configure do |config|
   config.order = 'random'
 end
 
-Contact = Struct.new :firstname, :lastname, :phone, :postcode
+Org     = Struct.new :name
+Contact = Struct.new :firstname, :lastname, :phone, :postcode, :org
 
 CONTACTS = []
-CONTACTS << Contact.new("Conan", "Dalton", "01234567", "75020")
-CONTACTS << Contact.new("Zed", "Zenumbra", "999999", "99999")
-CONTACTS << Contact.new("Abraham", "Aardvark", "0000000", "0")
-CONTACTS << Contact.new("James", "Joyce", "3647583", "75001")
+CONTACTS << Contact.new("Conan",   "Dalton",   "01234567", "75020", Org.new("Softify"))
+CONTACTS << Contact.new("Zed",     "Zenumbra", "999999",   "99999", Org.new("Ericsson"))
+CONTACTS << Contact.new("Abraham", "Aardvark", "0000000",  "0",     Org.new("Nokia"))
+CONTACTS << Contact.new("James",   "Joyce",    "3647583",  "75001", Org.new("Nortel"))
 
 class ContactUpper
   def firstname; contact.firstname.upcase; end
@@ -113,4 +114,3 @@ class Exporter
     build_interpreter(config).to_xls items, *args
   end
 end
-

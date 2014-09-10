@@ -6,7 +6,7 @@ module Entable::HtmlBuilder
 
     str = str.strip.gsub(/%\{[^}]*\}/) { |match|
       attr = match.gsub(/^%\{/, '').gsub(/\}$/, '').gsub(/-/, '_').strip
-      if attr.match(/^[a-zA-Z_][a-zA-Z0-9_]*$/)
+      if attr.match(/^[a-zA-Z_][a-zA-Z0-9_\.]*$/)
         "%{item.#{attr}}"
       else
         errors << "prohibited attribute #{match}"
